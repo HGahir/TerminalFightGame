@@ -67,8 +67,8 @@ class Game
             player.PlayerHealth = 100;
             player.PlayerRespect = 0;
             player.PlayerSkill = 0;
-            player.PlayerStamina = 0;
-            player.PlayerStrength = 0;
+            player.PlayerStamina = 10;
+            player.PlayerStrength = 10;
 
             std::cout << "Welcome to the prison fight club " << player.PlayerName << std::endl;
             std::cout << "In this prison winning fights gets you benefits." << std::endl;
@@ -123,8 +123,6 @@ class Game
                             player.PlayerStamina = player.PlayerStamina + 5;
                             player.GymVisited = true;
                         }
-                        
-                        
                     }
                 }
             }
@@ -132,6 +130,22 @@ class Game
 
         void DifficultySet(int SetDifficulty)
         {
+            
+        }
+
+        void FightMode()
+        {
+            int OpponentStrength = 10;
+            int OpponentHealth = 100;
+            int OpponentStamina = 10;
+
+            int FightStart;
+            bool FightEnd;
+
+            std::cout << "Start Fight?" << std::endl;
+            std::cin >> FightStart;
+            std::cout >> "" >> std::endl;
+
             
         }
 };
