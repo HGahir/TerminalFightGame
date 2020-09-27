@@ -1,4 +1,5 @@
 #include "Player.h"
+#include <stdlib.h>
 
 Player player;
 
@@ -16,6 +17,7 @@ class Game
             std::cout << "1.Start new game" << std::endl;
             std::cout << "2.Continue game" << std::endl;
             std::cout << "3.Edit Player Name" << std::endl;
+            std::cout << "4.Fight Debug" << std::endl;
             std::cout << "0.Quit Game" << std::endl;
             std::cout << "" << std::endl;
             std::cout << "-> ";
@@ -48,6 +50,10 @@ class Game
                 std::cout << "Enter Your new player name here: ";
                 std::cin >> player.PlayerName;
                 std::cout << "Your new player name is: " << player.PlayerName << std::endl;
+            }
+            if (PlayerMenuChoice == 4)
+            {
+                FightMode();
             }
             if (PlayerMenuChoice == 8)
             {
@@ -139,13 +145,38 @@ class Game
             int OpponentHealth = 100;
             int OpponentStamina = 10;
 
-            int FightStart;
-            bool FightEnd;
-
-            std::cout << "Start Fight?" << std::endl;
-            std::cin >> FightStart;
-            std::cout >> "" >> std::endl;
-
+            int FightChoice;
+            bool FightEnd = false;
             
+            while (!FightEnd)
+            {
+                std::cout << "Choose your move:" << std::endl;
+                std::cout << "1.Punch" << std::endl;
+                std::cout << "2.Block" << std::endl;
+                std::cout << "3.Dodge" << std::endl;
+                std::cout << "4.Throw in the towel" << std::endl;
+                std::cin >> FightChoice; std::cout << "" << std::endl;
+
+                if (OpponentHealth < 1)
+                {
+                    std::cout << "Congratultions you have defeated your opponent!" << std::endl;
+                    FightEnd = true;
+                }
+
+                if (FightChoice == 1)
+                {
+                    int OpponentChoice = rand()%3;
+                    if (OpponentChoice == 1)
+                    {
+                        int PlayerPunchPower = rand()%player.PlayerStrength;
+                        int OpponentPunchPower = rand()%OpponentStrength;
+                        OpponentHealth = OpponentHealth - PlayerPunchPower;
+                        std::cout << "Your punch does " << PlayerPunchPower << " damage" << std::endl;
+                        std::cout << "Your Opponent counter-attacks with a punch and deals: " << OpponentPunchPower << " damage." << std::endl;
+                        std::cout << "Opponent Health: " << OpponentHealth << std::endl;
+                        std::cout << player.PlayerName << "'s Health: " << player.PlayerHealth << std::endl;
+                    }
+                }
+            }
         }
 };
