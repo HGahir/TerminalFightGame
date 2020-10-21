@@ -71,6 +71,7 @@ class Game
             int PlayerDifficulty;
             player.PlayerEnergy = 100;
             player.PlayerHealth = 100;
+            player.PlayerSpeed = 10;
             player.PlayerRespect = 0;
             player.PlayerSkill = 0;
             player.PlayerStamina = 10;
@@ -144,6 +145,8 @@ class Game
             int OpponentStrength = 10;
             int OpponentHealth = 100;
             int OpponentStamina = 10;
+            int OpponentSpeed = 10;
+            int OpponentMove;
 
             int FightChoice;
             bool FightEnd = false;
@@ -156,27 +159,122 @@ class Game
                 std::cout << "3.Dodge" << std::endl;
                 std::cout << "4.Throw in the towel" << std::endl;
                 std::cin >> FightChoice; std::cout << "" << std::endl;
+                OpponentMove = rand()%3;
 
                 if (OpponentHealth < 1)
                 {
                     std::cout << "Congratultions you have defeated your opponent!" << std::endl;
                     FightEnd = true;
                 }
-
+                if (player.PlayerHealth < 1)
+                {
+                    std::cout << "You LOSE!" << std::endl;
+                    std::cout << "Your opponent has defeated you!" << std::endl;
+                    FightEnd == true;
+                }
                 if (FightChoice == 1)
                 {
-                    int OpponentChoice = rand()%3;
-                    if (OpponentChoice == 1)
+                    if (OpponentMove == 1)
                     {
                         int PlayerPunchPower = rand()%player.PlayerStrength;
                         int OpponentPunchPower = rand()%OpponentStrength;
                         OpponentHealth = OpponentHealth - PlayerPunchPower;
-                        std::cout << "Your punch does " << PlayerPunchPower << " damage" << std::endl;
+                        player.PlayerHealth = player.PlayerHealth - OpponentPunchPower;
+                        std::cout << "Your punch does " << PlayerPunchPower << " damage!" << std::endl;
                         std::cout << "Your Opponent counter-attacks with a punch and deals: " << OpponentPunchPower << " damage." << std::endl;
                         std::cout << "Opponent Health: " << OpponentHealth << std::endl;
                         std::cout << player.PlayerName << "'s Health: " << player.PlayerHealth << std::endl;
                     }
+                    if (OpponentMove == 2)
+                    {
+                        int PlayerPunchPower = (rand()%player.PlayerStrength)/2;
+                        OpponentHealth = OpponentHealth - PlayerPunchPower;
+                        std::cout << "Your opponent BLOCKS your punch and only takes " << PlayerPunchPower << " damage!" << std::endl;
+                        std::cout << "Opponent Health: " << OpponentHealth << std::endl;
+                        std::cout << player.PlayerName << "'s Health: " << player.PlayerHealth << std::endl;
+                    }
+                    if (OpponentMove == 3)
+                    {
+                        int DodgeDecider = rand()%player.PlayerSpeed - rand()%OpponentSpeed;
+                        if (DodgeDecider < 0)
+                        {
+                            std::cout << "Your opponent DODGES your punch!" << std::endl;
+                            std::cout << "No damage dealt." << std::endl;
+                            std::cout << "Opponent Health: " << OpponentHealth << std::endl;
+                            std::cout << player.PlayerName << "'s Health: " << player.PlayerHealth << std::endl;
+                        }
+                        if (DodgeDecider > 0)
+                        {
+                            int PlayerPunchPower = rand()%player.PlayerStrength;
+                            OpponentHealth = OpponentHealth - PlayerPunchPower;
+                            std::cout << "Your opponent attempts to DODGE your punch but fails." << std::endl;
+                            std::cout << "Your punch does " << PlayerPunchPower << " damage!" << std::endl;
+                            std::cout << "Opponent Health: " << OpponentHealth << std::endl;
+                            std::cout << player.PlayerName << "'s Health: " << player.PlayerHealth << std::endl;
+                        }
+                    }
                 }
+                if (FightChoice == 2)
+                {
+                    if (OpponentMove == 1)
+                    {
+                        int OpponentPunchPower = (rand()%OpponentStrength)/2;
+                        player.PlayerHealth = player.PlayerHealth - OpponentPunchPower;
+                        std::cout << "You BLOCK your opponents PUNCH!" << std::endl;
+                        std::cout << "Your opponent's PUNCH does " << OpponentPunchPower << " damage!" << std::endl;
+                        std::cout << "Opponent Health: " << OpponentHealth << std::endl;
+                        std::cout << player.PlayerName << "'s Health: " << player.PlayerHealth << std::endl;
+                    }
+                    if (OpponentMove == 2)
+                    {
+                        std::cout << "You both try to BLOCK!" << std::endl;
+                        std::cout << "Nothing happens." << std::endl;
+                        std::cout << "Opponent Health: " << OpponentHealth << std::endl;
+                        std::cout << player.PlayerName << "'s Health: " << player.PlayerHealth << std::endl;
+                    }
+                    if (OpponentMove == 3)
+                    {
+                        std::cout << "Your opponent tries to DODGE but you threw no punch." << std::endl;
+                        std::cout << "No damage dealt." << std::endl;
+                        std::cout << "Opponent Health: " << OpponentHealth << std::endl;
+                        std::cout << player.PlayerName << "'s Health: " << player.PlayerHealth << std::endl;
+                    }
+                }
+                if (FightChoice == 3)
+                {
+                    if (OpponentMove = 1)
+                    {
+                        int DodgeDecider = rand()%player.PlayerSpeed - rand()%OpponentSpeed;
+
+                        if (DodgeDecider > 0)
+                        {
+                            std::cout << "You successfully DODGE your opponent's PUNCH!" << std::endl;
+                            std::cout << "No damage dealt." << std::endl;
+                            std::cout << "Opponent Health: " << OpponentHealth << std::endl;
+                            std::cout << player.PlayerName << "'s Health: " << player.PlayerHealth << std::endl;
+                        }
+                        if (DodgeDecider < 0)
+                        {
+                            int OpponentPunchPower = rand()%OpponentStrength;
+                            player.PlayerHealth = player.PlayerHealth - OpponentPunchPower;
+                            std::cout << "You try to DODGE your opponent but you fail!" << std::endl;
+                            std::cout << "Your opponent does " << OpponentPunchPower << " damage!" << std::endl;
+                            std::cout << "Opponent Health: " << OpponentHealth << std::endl;
+                            std::cout << player.PlayerName << "'s Health: " << player.PlayerHealth << std::endl;
+                        }
+                    }
+                }
+                if (FightChoice == 4)
+                {
+                    std::cout << "You THROW IN THE TOWEL!" << std::endl;
+                    std::cout << "You LOSE by forfit." << std::endl;
+                    FightEnd = true;
+                }
+                else
+                {
+                    std::cout << "Invalid move. Try again." << std::endl;
+                }
+                
             }
         }
 };
